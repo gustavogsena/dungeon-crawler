@@ -6,9 +6,10 @@
     "client:dev": "vite",
     "client:build": "tsc && vite build",
     "client:preview": "vite preview",
-    "server:dev": "npx tsx watch --tsconfig ./tsconfig.server.json src/server/index.ts"
+    "server:dev": "nodemon --watch src/server/**/*.ts --exec ts-node --project tsconfig.server.json src/server/index.ts"
   },
   "dependencies": {
+    "axios": "^1.4.0",
     "body-parse": "^0.1.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
@@ -16,11 +17,16 @@
     "dotenv": "^16.1.4",
     "express": "^4.18.2",
     "mongoose": "^7.3.0",
+    "history": "^5.3.0",
     "multer": "^1.4.5-lts.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    
+    "react-simple-toasts": "^3.6.0",
+    "react-router-dom": "^6.13.0",
     "reflect-metadata": "^0.1.13",
-    "routing-controllers": "^0.10.4"
+    "routing-controllers": "^0.10.4",
+    "typedi": "^0.10.0"
   },
   "devDependencies": {
     "@types/body-parser": "^1.19.2",
@@ -31,10 +37,14 @@
     "@typescript-eslint/eslint-plugin": "^5.59.0",
     "@typescript-eslint/parser": "^5.59.0",
     "@vitejs/plugin-react": "^4.0.0",
+    "autoprefixer": "^10.4.14",
     "eslint": "^8.38.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.3.4",
-    "tsx": "^3.12.7",
+    "nodemon": "^2.0.22",
+    "postcss": "^8.4.24",
+    "tailwindcss": "^3.3.2",
+    "ts-node": "^10.9.1",
     "typescript": "^5.1.3",
     "vite": "^4.3.9"
   }

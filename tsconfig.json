@@ -15,7 +15,7 @@
     "jsx": "react-jsx",
     "experimentalDecorators": true,                 
     "emitDecoratorMetadata": true,   
-
+    "strictPropertyInitialization": false,
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,

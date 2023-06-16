@@ -1,47 +1,42 @@
-import { Get, JsonController } from "routing-controllers";
-import { connect, model, Schema } from 'mongoose'
+import { Body, Delete, Get, JsonController, Param, Post, Put } from "routing-controllers";
+import { CreateUserDto } from "./dtos/createUser.dto";
+import { UserService } from "./user.service";
+import { Service } from "typedi";
+import { UpdateUserDto } from "./dtos/updateUser.dto";
 
-interface IUser {
-    name: string,
-    surname: string,
-    email: string
-}
-
-const userSchema = new Schema<IUser>({
-    name: {
-        type: Schema.Types.String,
-        required: true,
-    },
-    surname: {
-        type: Schema.Types.String,
-        required: true,
-    },
-    email: {
-        type: Schema.Types.String,
-        required: true,
-    }
-})
-
-const User = model<IUser>('User', userSchema)
-
+@Service()
 @JsonController('/users')
 export class UserController {
+    constructor(private readonly userService: UserService) { }
 
     @Get()
-    async getAll() {
-        await connect(process.env.DATABASE_URL ?? '');
-        await User.insertMany([
-           { name: "Gustavo", surname: "Sena", email: "gustavo@mail.com"},
-           { name: "Julia", surname: "Gruppi", email: "julia@mail.com"}
-
-        ])
-
-        const users = await User.find()
+    async findAll() {
+        const users = await this.userService.findAll()
         return users
     }
 
-    async getOne() {
+    @Get('/:username')
+    async findOne(@Param('username') username: string) {
+        const user = await this.userService.findOne(username)
+        return user
+    }
 
+    @Post()
+    async create(@Body() createUserDto: CreateUserDto) {
+        const user = await this.userService.create(createUserDto)
+        return user
+    }
+
+    @Put('/:username')
+    async update(@Param('username') username: string, @Body() updateUserDto: UpdateUserDto) {
+        const user = await this.userService.update(username, updateUserDto)
+        return user
+    }
+    
+    @Delete('/:username')
+    async delete(@Param('username') username: string) {
+        const user = await this.userService.delete(username)
+        return user
     }
 
 }
