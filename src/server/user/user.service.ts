@@ -2,6 +2,7 @@ import { Service } from "typedi";
 import { UserRepository } from "./user.repository";
 import { UpdateUserDto } from "./dtos/updateUser.dto";
 import { CreateUserDto } from "./dtos/createUser.dto";
+import { IHero } from "../hero/hero.schema";
 
 @Service()
 export class UserService {
@@ -30,5 +31,10 @@ export class UserService {
     async delete(username: string) {
         const user = await this.userRepository.delete(username)
         return user
+    }
+
+    async createHero(username: string, hero: IHero) {
+        const newHero = await this.userRepository.createHero(username, hero)
+        return newHero
     }
 }

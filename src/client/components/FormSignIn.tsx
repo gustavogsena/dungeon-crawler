@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import {userSignIn } from '../store/reducers/user.slice';
 
 
 const texts = {
@@ -10,10 +12,11 @@ const texts = {
 
 function FormSignIn() {
     const [form, setForm] = useState({ username: '', password: '' })
+    const dispatch = useDispatch()
 
     const signIn = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        console.log(form)
+        dispatch(userSignIn(form))
     }
 
     return (

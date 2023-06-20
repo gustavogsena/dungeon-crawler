@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom'
+import { userSignUp } from '../store/reducers/user.slice';
 
 const texts = {
     signUpTitle: "Criar conta",
@@ -9,10 +11,11 @@ const texts = {
 
 function FormSignUp() {
     const [form, setForm] = useState({ name: '', surname: '', email: '', username: '', password: '' })
+    const dispatch = useDispatch()
 
     const signUp = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        console.log(form)
+        dispatch(userSignUp(form))
     }
 
     return (

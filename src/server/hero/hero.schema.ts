@@ -1,6 +1,7 @@
-import { Schema, model } from "mongoose"
+import { Schema } from "mongoose"
+import { IEquipment, IItem, equipmentSchema, itemsSchema } from "../items/items.schema"
+import { HerroClassType } from "../../types"
 
-export type ClassType = 'wizard' | 'warrior' | 'archer' | 'cleric'
 
 export type IStatus = {
     strength: number,
@@ -10,11 +11,14 @@ export type IStatus = {
 }
 
 export interface IHero {
+    id: string,
     name: string,
-    class: ClassType,
+    class: HerroClassType,
     level: number,
     experience: number,
     status: IStatus
+    equipment: IEquipment,
+    inventory: IItem[]
 }
 
 export const statusSchema = new Schema<IStatus>({
@@ -45,6 +49,10 @@ export const statusSchema = new Schema<IStatus>({
 })
 
 export const heroSchema = new Schema<IHero>({
+    id: {
+        type: Schema.Types.String,
+        required: true
+    },
     name: {
         type: Schema.Types.String,
         required: true,
@@ -67,7 +75,8 @@ export const heroSchema = new Schema<IHero>({
         minlength: 6,
         maxlength: 64
     },
-    status: [statusSchema]
+    status: [statusSchema],
+    equipment: equipmentSchema,
+    inventory: [itemsSchema]
 })
 
-export const User = model<IHero>('Hero', heroSchema)

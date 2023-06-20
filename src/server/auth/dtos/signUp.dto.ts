@@ -1,6 +1,6 @@
-import { IsEmail, Matches, MaxLength, Min, MinLength } from "class-validator";
+import { IsEmail, Matches, MaxLength, MinLength } from "class-validator";
 
-export class CreateUserDto {
+export class SignUpDto {
 
     @Matches(/^[a-z]+/, {
         message: "Nome de usuário deve conter apenas letras minusculas"
@@ -42,5 +42,5 @@ export class CreateUserDto {
     @MaxLength(48)
     @IsEmail({},{ message: 'E-mail invalido'})
     email: string;
-}
 
+}

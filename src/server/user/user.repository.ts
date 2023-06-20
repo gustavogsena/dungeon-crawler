@@ -1,7 +1,9 @@
 import { Service } from "typedi";
 import { CreateUserDto } from "./dtos/createUser.dto";
-import { IUser, User } from "./user.model";
+import { User } from "./user.model";
 import { UpdateUserDto } from "./dtos/updateUser.dto";
+import { IUser } from "./user.schema";
+import { IHero } from "../hero/hero.schema";
 
 @Service()
 export class UserRepository {
@@ -33,5 +35,15 @@ export class UserRepository {
     async delete(username: string) {
         const user = await User.findOneAndDelete({ username }).lean()
         return user
+    }
+
+
+    async createHero(username: string, hero: IHero) {
+        const newHero = await User.findOneAndUpdate({ username }, {
+            $push: {
+                heroes: hero
+            }
+        }).lean()
+        return newHero
     }
 }
