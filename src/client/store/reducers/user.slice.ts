@@ -22,7 +22,7 @@ const userSlice = createSlice({
         },
         removeUser: () => {
             AuthToken.remove()
-            browserHistory.push("/login");
+            browserHistory.push("/sign-in");
             return initialState
         },
         authenticatedUser: (state, action: PayloadAction<string>) => {

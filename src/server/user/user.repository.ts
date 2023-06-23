@@ -22,13 +22,13 @@ export class UserRepository {
     }
 
     async create(createUserDto: CreateUserDto) {
-        const newUser: IUser = { ...createUserDto, cristals: 0, heroes: [] }
+        const newUser: IUser = { ...createUserDto, crystal: 0, heroes: [] }
         const user = (await User.create(newUser)).toJSON()
         return user
     }
 
     async update(username: string, updateUserDto: UpdateUserDto) {
-        const user = await User.findOneAndUpdate({ username }, updateUserDto).lean()
+        const user = await User.findOneAndUpdate({ username }, updateUserDto, {new: true}).lean()
         return user
     }
 
@@ -43,7 +43,7 @@ export class UserRepository {
             $push: {
                 heroes: hero
             }
-        }).lean()
+        }, {new: true}).lean()
         return newHero
     }
 }

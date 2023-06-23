@@ -31,7 +31,7 @@ api.interceptors.response.use(
         if (status === 401) {
             AuthToken.remove();
             toast(texts.unauthenticatedError);
-            browserHistory.push("/");
+            browserHistory.push("/sign-in");
         } else if (status === 400) {
 
             if (error.response.data.errors) {

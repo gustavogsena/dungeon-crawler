@@ -11,6 +11,7 @@ export interface IItem {
     enchantment?: any[],
     slot: keyof IEquipment,
     type: string
+    price: number,
     attack?: number,
     defense?: number,
     block?: number,
@@ -41,6 +42,11 @@ export const itemsSchema = new Schema<IItem>({
     },
     enchantment: {
         type: Schema.Types.Array
+    },
+    price: {
+        type: Schema.Types.Number,
+        required: true,
+        min: 0
     },
     attack: {
         type: Schema.Types.Number,

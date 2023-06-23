@@ -13,6 +13,6 @@ export const signUp = async (signUpForm: UserSignUpInput): Promise<UserSignInRes
 }
 
 export const getUserApi = async (): Promise<User> => {
-    const response = await api.get('/user')
+    const response = await api.get('/auth/myself')
     return response.data
 }

@@ -1,6 +1,6 @@
 // ---------------------- Types of user --------------------------
 
-import { IStatus } from "./server/hero/hero.schema";
+import { IHero, IStatus } from "./server/hero/hero.schema";
 import { IEquipment } from "./server/items/items.schema";
 
 export type User = {
@@ -8,7 +8,7 @@ export type User = {
     username?: string;
     name?: string;
     surname?: string;
-    heroes?: any[];
+    heroes?: IHero[];
     isAuthenticated?: boolean;
 }
 
@@ -29,14 +29,23 @@ export type UserSignInResponse = {
     token: string
 }
 
-
-
 // ---------------------- Types of items --------------------------
 
 export type RarityTypes = 'common' | 'uncommon' | 'rare' | 'legendary'
 export type SlotTypes = keyof IEquipment
 export type EnchantmentType = {}
+export type Item = {
+
+}
 
 
 // ---------------------- Types of Heroes --------------------------
-export type HerroClassType = 'wizard' | 'warrior' | 'archer' | 'cleric'
+export type HerroClassType = 'wizard' | 'knight' | 'archer' | 'cleric'
+
+export type CreateHeroForm = {
+    class: HerroClassType,
+    name: string
+}
+export type Hero = {
+
+}

@@ -18,7 +18,8 @@ export interface IHero {
     experience: number,
     status: IStatus
     equipment: IEquipment,
-    inventory: IItem[]
+    inventory: IItem[],
+    gold: number
 }
 
 export const statusSchema = new Schema<IStatus>({
@@ -75,7 +76,12 @@ export const heroSchema = new Schema<IHero>({
         minlength: 6,
         maxlength: 64
     },
-    status: [statusSchema],
+    gold: {
+        type: Schema.Types.Number,
+        required: true,
+        min: 0
+    },
+    status: statusSchema,
     equipment: equipmentSchema,
     inventory: [itemsSchema]
 })

@@ -1,7 +1,9 @@
-import { Authorized, Body, Get, JsonController, Param, Post } from "routing-controllers";
+import { Authorized, Body, CurrentUser, Get, JsonController, Param, Post } from "routing-controllers";
 import { Service } from "typedi";
 import { ItemsService } from "./items.service";
 import { CreateItemDto } from "./dtos/createItem.dto";
+import type { IUser } from "../user/user.schema";
+import { BuyItemBodyDto } from "./dtos/BuyItemBody.dto";
 
 @Service()
 @JsonController('/items')
@@ -11,7 +13,8 @@ export class ItemsController {
     @Authorized()
     @Get()
     async findAll() {
-        const items = await this.itemsService.finaAll()
+        console.log(this.itemsService)
+        const items = await this.itemsService.findAll()
         return items
     }
 
@@ -25,9 +28,10 @@ export class ItemsController {
     @Authorized()
     @Post()
     async create(@Body() createItemDto: CreateItemDto) {
-        console.log(createItemDto)
         const item = await this.itemsService.create(createItemDto)
-        
         return item
     }
+
+  
+
 }

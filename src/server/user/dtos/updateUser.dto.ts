@@ -1,17 +1,28 @@
-import { MaxLength, MinLength } from "class-validator";
+import { IsArray, IsOptional, MaxLength, MinLength, ValidateNested } from "class-validator";
+import { Type } from "class-transformer";
+import { UpdateHeroDto } from "../../hero/dtos/updateHero.dto";
 
 export class UpdateUserDto {
     @MinLength(2)
     @MaxLength(16)
-    name: string;
+    @IsOptional()
+    name?: string;
 
     @MinLength(2)
     @MaxLength(24)
-    surname: string;
+    @IsOptional()
+    surname?: string;
 
     @MinLength(4)
     @MaxLength(48)
-    password: string;
+    @IsOptional()
+    password?: string;
+
+    @ValidateNested()
+    @IsArray()
+    @Type(() => UpdateHeroDto)
+    @IsOptional()
+    heroes?: UpdateHeroDto[];
 
 }
 

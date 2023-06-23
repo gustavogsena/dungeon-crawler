@@ -8,7 +8,7 @@ export interface IUser {
     password: string,
     email: string,
     heroes: IHero[],
-    cristals: number
+    crystal: number
 }
 
 export const userSchema = new Schema<IUser>({
@@ -44,7 +44,7 @@ export const userSchema = new Schema<IUser>({
         minlength: 6,
         maxlength: 64
     },
-    cristals: {
+    crystal: {
         type: Schema.Types.Number,
         required: true,
         min: 0

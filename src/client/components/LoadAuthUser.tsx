@@ -4,16 +4,21 @@ import { User } from '../../types';
 import { RootState } from '../store';
 import { AuthToken } from '../utils/authToken';
 import { getUser } from '../store/reducers/user.slice';
+import { useNavigate } from 'react-router-dom';
 
 function LoadAuthUser() {
     const user = useSelector<RootState, User>(state => state.user)
+    const navigate = useNavigate()
     const dispatch = useDispatch()
 
     useEffect(() => {
         const token = AuthToken.get();
-        if (!token || user.isAuthenticated) {
+        console.log(token)
+        if (!token) {
+            navigate('/sign-in')
             return;
         }
+        if (user.isAuthenticated) return
 
         dispatch(getUser())
 

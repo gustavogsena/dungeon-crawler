@@ -12,6 +12,7 @@ userListener.startListening({
 
         const confirmUser = fork(async () => {
             const user = await getUserApi();
+            console.log(user)
             return user
         });
 
@@ -40,7 +41,7 @@ userListener.startListening({
             toast('Login realizado com sucesso')
             dispatch(updateUser(response.value.user))
             dispatch(authenticatedUser(response.value.token))
-            browserHistory.push("/sign-up")
+            browserHistory.push("/")
         }
     }
 });
@@ -61,7 +62,7 @@ userListener.startListening({
             toast('Usuario criado com sucesso')
             dispatch(updateUser(response.value.user))
             dispatch(authenticatedUser(response.value.token))
-            browserHistory.push("/sign-in")
+            browserHistory.push("/")
         }
     }
 });
