@@ -1,11 +1,11 @@
 import { PayloadAction, createAction, createSlice } from '@reduxjs/toolkit';
-import { AuthToken } from '../../utils/authToken';
-import { browserHistory } from '../../utils/browserHistory';
-import { CreateHeroForm, User, UserSignInInput, UserSignUpInput } from '../../../types';
+import { CreateHeroForm, HerroClassType } from '../../../types';
 import { IHero } from '../../../server/hero/hero.schema';
 
 export const createHero = createAction<CreateHeroForm>('createHero')
 export const getHero = createAction<string>('getHero')
+export const getBasicHeroStatus = createAction<HerroClassType>('getBasicHeroStatus')
+export const deleteHero = createAction<string>('deleteHero')
 
 const initialState: IHero = {
     id: '',
@@ -17,7 +17,7 @@ const initialState: IHero = {
         strength: 0,
         agility: 0,
         faith: 0,
-        intelligence: 0
+        magic: 0
     },
     equipment: {
         rightHand: undefined,
@@ -35,7 +35,7 @@ const heroSlice = createSlice({
     initialState,
     reducers: {
         updateHero: (state, action: PayloadAction<IHero>) => {
-            return action.payload
+            Object.assign(state, action.payload)
         },
         removeHero: () => {
             return initialState

@@ -6,7 +6,7 @@ import { HerroClassType } from "../../types"
 export type IStatus = {
     strength: number,
     agility: number,
-    intelligence: number,
+    magic: number,
     faith: number
 }
 
@@ -35,7 +35,7 @@ export const statusSchema = new Schema<IStatus>({
         min: 1,
         max: 99
     },
-    intelligence: {
+    magic: {
         type: Schema.Types.Number,
         required: true,
         min: 1,

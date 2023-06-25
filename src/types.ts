@@ -40,7 +40,7 @@ export type Item = {
 
 
 // ---------------------- Types of Heroes --------------------------
-export type HerroClassType = 'wizard' | 'knight' | 'archer' | 'cleric'
+export type HerroClassType = 'wizard' | 'knight' | 'archer' | 'cleric' | ''
 
 export type CreateHeroForm = {
     class: HerroClassType,

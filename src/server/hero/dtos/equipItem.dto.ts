@@ -1,11 +1,10 @@
 import { IsString } from "class-validator"
 
-export class BuyItemBodyDto {
+export class EquipItemDto {
     
     @IsString()
     heroId: string
 
     @IsString()
     itemName: string
-
 }

@@ -17,10 +17,32 @@ export class UpdateStatusDto {
     @IsOptional()
     @Min(1)
     @Max(99)
-    intelligence: number
+    magic: number
     
     @IsNumber()
     @IsOptional()
+    @Min(1)
+    @Max(99)
+    faith: number
+}
+
+export class createStatusDto {
+    @IsNumber()
+    @Min(1)
+    @Max(99)
+    strength: number
+
+    @IsNumber()
+    @Min(1)
+    @Max(99)
+    agility: number
+    
+    @IsNumber()
+    @Min(1)
+    @Max(99)
+    magic: number
+    
+    @IsNumber()
     @Min(1)
     @Max(99)
     faith: number

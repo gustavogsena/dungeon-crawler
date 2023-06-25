@@ -17,6 +17,7 @@ export class CreateItemDto {
     @Matches(/^(common|uncommon|rare|legendary)$/g)
     rarity: string
 
+    @IsOptional()
     @Matches(/^(rightHand|leftHand|helmet|armor|boots)$/g, { message: 'Slot deve ser rightHand, leftHand, helmet, armor ou boots' })
     slot: string
 
@@ -41,7 +42,7 @@ export class CreateItemDto {
     @IsOptional()
     block: number
 
-    @Matches(/^(strength|agility|intelligence|faith)$/g)
+    @Matches(/^(strength|agility|magic|faith)$/g)
     @IsOptional()
     modifier: string
 

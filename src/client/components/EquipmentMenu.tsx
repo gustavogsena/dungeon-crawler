@@ -13,7 +13,7 @@ function EquipmentMenu() {
 
     return (
         <>
-            <div className='grid grid-cols-3 grid-rows-8 gap-4 h-[300px] px-8'>
+            <div className='grid grid-cols-3 grid-rows-8 gap-4 min-h-[320px] px-8'>
                 <div className=''></div>
                 <div className='bg-amarelo-200 bg-opacity-75 p-2 row-span-2 flex justify-center h-[80px]'>
                     <EquipmentMenuItem itemSlot={hero.equipment.helmet} setHover={() => setHoverItem(hero.equipment.helmet)} />

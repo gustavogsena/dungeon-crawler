@@ -12,6 +12,7 @@ export interface IItem {
     slot: keyof IEquipment,
     type: string
     price: number,
+    quantity: number,
     attack?: number,
     defense?: number,
     block?: number,
@@ -71,6 +72,9 @@ export const itemsSchema = new Schema<IItem>({
     },
     twoHanded: {
         type: Schema.Types.Boolean
+    },
+    quantity: {
+        type: Schema.Types.Number
     }
 })
 

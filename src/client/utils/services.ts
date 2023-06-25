@@ -21,8 +21,8 @@ export const translateAttributeName = (attribute: keyof IStatus) => {
             return 'Força'
         case 'agility':
             return 'Agilidade'
-        case 'intelligence':
-            return 'Inteligência'
+        case 'magic':
+            return 'Magia'
         case 'faith':
             return 'Fé'
         default:
@@ -36,4 +36,14 @@ export const captalizeItemName = (itemName: string) => {
         return acc + ' ' + namePart.charAt(0).toUpperCase() + namePart.slice(1)
     }, '')
     return captalizeName
+}
+
+export const iconUrlName = (type: string[]) => {
+    if (type.includes('weapon')) return 'weapon'
+    if (type.includes('armor')) return 'armor'
+    if (type.includes('boots')) return 'boots'
+    if (type.includes('helmet')) return 'helmet'
+    if (type.includes('potion')) return 'potion'
+    if (type.includes('scroll')) return 'scroll'
+    if (type.includes('shield')) return 'shield'
 }

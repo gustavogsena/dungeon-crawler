@@ -44,7 +44,5 @@ export class UserController {
         const user = await this.userService.delete(username)
         return user
     }
-
-
     
 }

@@ -3,6 +3,7 @@ import { UserRepository } from "./user.repository";
 import { UpdateUserDto } from "./dtos/updateUser.dto";
 import { CreateUserDto } from "./dtos/createUser.dto";
 import { IHero } from "../hero/hero.schema";
+import { IUser } from "./user.schema";
 
 @Service()
 export class UserService {
@@ -36,5 +37,12 @@ export class UserService {
     async createHero(username: string, hero: IHero) {
         const newHero = await this.userRepository.createHero(username, hero)
         return newHero
+    }
+
+    async deleteHero(username: string, heroId: string) {
+        const user = await this.findOne(username) as unknown as IUser
+        const heroes = user?.heroes.filter((hero) => hero.id !== heroId)
+        const updatedUser = await this.update(username, { heroes })
+        return updatedUser
     }
 }

@@ -9,6 +9,6 @@ export class CreateHeroDto {
     name: string
 
     @IsString()
-    @Matches(/^(warrior|wizard|cleric|archer)$/g, {message: 'Classe inválida'})
+    @Matches(/^(knight|wizard|cleric|archer)$/g, {message: 'Classe inválida'})
     class: HerroClassType
 }

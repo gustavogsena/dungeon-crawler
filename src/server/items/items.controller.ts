@@ -2,8 +2,6 @@ import { Authorized, Body, CurrentUser, Get, JsonController, Param, Post } from 
 import { Service } from "typedi";
 import { ItemsService } from "./items.service";
 import { CreateItemDto } from "./dtos/createItem.dto";
-import type { IUser } from "../user/user.schema";
-import { BuyItemBodyDto } from "./dtos/BuyItemBody.dto";
 
 @Service()
 @JsonController('/items')
@@ -31,7 +29,5 @@ export class ItemsController {
         const item = await this.itemsService.create(createItemDto)
         return item
     }
-
-  
 
 }

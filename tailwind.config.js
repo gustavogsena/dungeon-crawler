@@ -10,6 +10,7 @@ module.exports = {
         "dungeon": "url('images/backgrounds/background-dungeon.jpg')",
         "market": "url('images/backgrounds/background-market-2.jpg')",
         "castle": "url('images/backgrounds/background-castle.webp')",
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
       },
       fontFamily: {
         "gotika": ['gotika'],
