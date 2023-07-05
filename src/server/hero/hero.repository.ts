@@ -2,7 +2,7 @@ import { Service } from "typedi";
 
 import { Hero } from "./hero.model";
 import { IHero } from "./hero.schema";
-import { HerroClassType } from "../../types";
+import { HeroClassType } from "../../types";
 
 @Service()
 export class HeroRepository {
@@ -13,7 +13,7 @@ export class HeroRepository {
         return newHeroClass
     }
 
-    async findHeroClassPrototype(heroClass: HerroClassType) {
+    async findHeroClassPrototype(heroClass: HeroClassType) {
         const heroClassPrototype = await Hero.find({ class: heroClass })
         return heroClassPrototype
     }

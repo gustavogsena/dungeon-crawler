@@ -26,7 +26,7 @@ export class UpdateStatusDto {
     faith: number
 }
 
-export class createStatusDto {
+export class CreateStatusDto {
     @IsNumber()
     @Min(1)
     @Max(99)

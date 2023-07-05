@@ -11,10 +11,13 @@ module.exports = {
         "market": "url('images/backgrounds/background-market-2.jpg')",
         "castle": "url('images/backgrounds/background-castle.webp')",
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'flamemountain': "url('images/backgrounds/flame-mountain.jpg')",
+        'darkforest': "url('images/backgrounds/dark-forest.jpg')",
       },
       fontFamily: {
         "gotika": ['gotika'],
-        "deutsh": ['deutsch']
+        "deutsh": ['deutsch'],
+        "beyond": ['beyond'],
       },
       colors: {
         'amarelo': {

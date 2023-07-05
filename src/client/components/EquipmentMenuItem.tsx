@@ -11,7 +11,7 @@ function EquipmentMenuItem({ itemSlot, setHover }: EquipmentMenuItemType) {
         <>
             {
                 itemSlot &&
-                <img className='h-full' onMouseOver={() => setHover(itemSlot)} src={`images/items/${itemSlot.imageUrl}`}  data-tooltip-id='equipment_item_tooltip'/>
+                <img className='max-h-full' onMouseOver={() => setHover(itemSlot)} src={`images/items/${itemSlot.imageUrl}`}  data-tooltip-id='equipment_item_tooltip' />
             }
         </>
     )

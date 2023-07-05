@@ -30,6 +30,7 @@ function CreateHeroSelectClassContainer({ formValue, setForm }: CreateHeroSelect
     useEffect(() => {
         dispatch(getBasicHeroStatus(formValue.class))
     }, [formValue.class])
+    
     return (
         <div className='bg-black h-full md:w-1/4 max-w-[350px] min-w-[250px] rounded-lg bg-opacity-75 justify-center flex flex-wrap py-6'>
             <h3 className='font-gotika text-2xl text-amarelo-200 mt-4 mb-6 text-center self-start w-full'>

@@ -10,6 +10,9 @@ import { authorizationChecker } from './auth/checkers/authorization.checker';
 import { currentUserChecker } from './auth/checkers/currentUser.checker';
 import { ItemsController } from './items/items.controller';
 import { HeroController } from './hero/hero.controller';
+import { DungeonController } from './dungeon/dungeon.controller';
+import { MonsterController } from './monster/monster.controller';
+import { GameController } from './game/game.controller';
 
 
 
@@ -19,7 +22,7 @@ const host = process.env.HOST
 useContainer(Container)
 
 createExpressServer({
-    controllers: [UserController, AuthController, ItemsController, HeroController],
+    controllers: [UserController, AuthController, ItemsController, HeroController, DungeonController, MonsterController, GameController],
     cors: true,
     authorizationChecker,
     currentUserChecker

@@ -12,7 +12,6 @@ userListener.startListening({
 
         const confirmUser = fork(async () => {
             const user = await getUserApi();
-            console.log(user)
             return user
         });
 

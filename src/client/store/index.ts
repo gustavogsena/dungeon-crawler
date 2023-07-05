@@ -3,11 +3,15 @@ import { userListener } from './middlewares/user.middleware';
 import userSlice from './reducers/user.slice';
 import { heroListener } from './middlewares/hero.middleware';
 import heroSlice from './reducers/hero.slice';
+import gameSlice from './reducers/game.slice';
+import combatLogSlice from './reducers/combatLog.slice';
 
 const store = configureStore({
     reducer: {
         user: userSlice,
-        hero: heroSlice
+        hero: heroSlice,
+        game: gameSlice,
+        combatLog: combatLogSlice
     },
     middleware:
       getDefaultMiddleware =>

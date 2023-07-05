@@ -5,10 +5,11 @@ import LoadAuthUser from "./components/LoadAuthUser"
 import { browserHistory } from "./utils/browserHistory"
 import Home from "./routes/Home"
 import StandardGameContainer from "./components/StandardGameContainer"
-import Header from "./components/Header"
 import DungeonMenu from "./routes/DungeonMenu"
 import Inventory from "./routes/Inventory"
 import CreateHero from "./routes/CreateHero"
+import GameContainer from "./routes/GameContainer"
+
 
 function AppRoutes() {
   return (
@@ -20,6 +21,7 @@ function AppRoutes() {
         <Route path="/" element={<StandardGameContainer />}>
           <Route index element={<Home />} />
           <Route path='/create-hero' element={<CreateHero />} />
+          <Route path='/game' element={<GameContainer />} />
           <Route path='/dungeon-menu' element={<DungeonMenu />} />
           <Route path='/inventory' element={<Inventory />} />
         </Route>

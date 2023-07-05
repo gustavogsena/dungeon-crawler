@@ -1,5 +1,5 @@
 import {IsString, Matches, MaxLength, MinLength } from "class-validator"
-import type { HerroClassType } from "../../../types"
+import type { HeroClassType } from "../../../types"
 
 export class CreateHeroDto {
 
@@ -10,5 +10,5 @@ export class CreateHeroDto {
 
     @IsString()
     @Matches(/^(knight|wizard|cleric|archer)$/g, {message: 'Classe inválida'})
-    class: HerroClassType
+    class: HeroClassType
 }

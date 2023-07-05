@@ -4,7 +4,7 @@ import { CreateHeroDto } from "./dtos/createHero.dto";
 import type { IUser } from "../user/user.schema";
 import { HeroService } from "./hero.service";
 import { BuyItemBodyDto } from "../items/dtos/BuyItemBody.dto";
-import type { HerroClassType } from "../../types";
+import type { HeroClassType } from "../../types";
 import { CreateHeroClassDto } from "./dtos/createHeroClass.dto";
 import { EquipItemDto } from "./dtos/equipItem.dto";
 import { UnequipItemDto } from "./dtos/unequipItem.dto";
@@ -24,7 +24,7 @@ export class HeroController {
 
     @Authorized()
     @Get('/class/:heroClass')
-    async findBasicHeroClass(@CurrentUser() user: IUser, @Param('heroClass') heroClass: HerroClassType) {
+    async findBasicHeroClass(@CurrentUser() user: IUser, @Param('heroClass') heroClass: HeroClassType) {
         const newHero = await this.heroService.findBasicClass(heroClass)
         return newHero
     }

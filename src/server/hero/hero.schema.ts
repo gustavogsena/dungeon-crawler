@@ -1,6 +1,6 @@
 import { Schema } from "mongoose"
 import { IEquipment, IItem, equipmentSchema, itemsSchema } from "../items/items.schema"
-import { HerroClassType } from "../../types"
+import { HeroClassType } from "../../types"
 
 
 export type IStatus = {
@@ -13,7 +13,7 @@ export type IStatus = {
 export interface IHero {
     id: string,
     name: string,
-    class: HerroClassType,
+    class: HeroClassType,
     level: number,
     experience: number,
     status: IStatus

@@ -7,11 +7,9 @@ import { IHero } from "./hero.schema";
 import { BadRequestError, NotFoundError } from "routing-controllers";
 import { IEquipment, IItem } from "../items/items.schema";
 import { ItemsService } from "../items/items.service";
-import { findBasicEquipmentByClass, findInventoryItems, findItemsByEquipmentPart, findStartInventoryItemsByClass, findStatusByClass } from "./hero.util";
+import { calculateCombatByEquipment, calculateEquipmentEffects, calculateHPandManaByClass, findBasicEquipmentByClass, findStartInventoryItemsByClass, findStatusByClass } from "./hero.util";
 import { HeroRepository } from "./hero.repository";
-import { CreateHeroClassDto } from "./dtos/createHeroClass.dto";
-import { HerroClassType } from "../../types";
-import { Hero } from "./hero.model";
+import { CombatStatus, HeroClassType, Hero } from "../../types";
 
 @Service()
 export class HeroService {
@@ -30,13 +28,39 @@ export class HeroService {
         if (findUser) {
             const heroes = findUser.heroes
             const selectedHero = heroes.find((hero) => hero.id === heroId)
-
             if (!selectedHero) throw new BadRequestError('Heroi não encontrado')
 
-            return selectedHero
+            const combatStatus = this.calculateCombatStatus(selectedHero)
+            const heroWithCombatStatus: Hero = {
+                ...selectedHero,
+                combatStatus
+            }
+
+            return heroWithCombatStatus
         }
 
         throw new NotFoundError('Usuario não encontrado')
+    }
+
+    calculateCombatStatus(hero: IHero): CombatStatus {
+        const { health, mana } = calculateHPandManaByClass(hero)
+        const { attack, defense, block } = calculateCombatByEquipment(hero)
+        const effects = calculateEquipmentEffects(hero)
+
+        const combatStatus = {
+            health, mana, attack, defense, block, effects
+        }
+
+        return combatStatus
+    }
+
+
+    async findBasicClass(heroClass: HeroClassType) {
+        const status = await findStatusByClass(heroClass)
+        const equipment = await findBasicEquipmentByClass(heroClass)
+        const inventory = await findStartInventoryItemsByClass(heroClass)
+        const hero = { equipment, inventory, status }
+        return hero
     }
 
     async create(username: string, createHeroDto: CreateHeroDto) {
@@ -49,16 +73,9 @@ export class HeroService {
         newHero.status = await findStatusByClass(createHeroDto.class)
         newHero.equipment = await findBasicEquipmentByClass(createHeroDto.class)
         newHero.inventory = await findStartInventoryItemsByClass(createHeroDto.class)
+       
         const userWithNewHero = await this.userService.createHero(username, newHero)
         const hero = userWithNewHero?.heroes.find((hero) => hero.id === newHero.id)
-        return hero
-    }
-
-    async findBasicClass(heroClass: HerroClassType) {
-        const status = await findStatusByClass(heroClass)
-        const equipment = await findBasicEquipmentByClass(heroClass)
-        const inventory = await findStartInventoryItemsByClass(heroClass)
-        const hero = { equipment, inventory, status }
         return hero
     }
 
@@ -71,7 +88,6 @@ export class HeroService {
         const hero = await this.findById(user, heroId)
         const item = await this.itemsService.findItemByName(itemName)
 
-
         if (item.price > hero.gold) throw new BadRequestError("Você não possui dinheiro suficiente para compra do item");
         const nextHeroGold = hero.gold - item.price
 
@@ -79,6 +95,55 @@ export class HeroService {
         item.quantity = 1
         const updatedHero = await this.addItemInventory(user, hero, item)
         return updatedHero
+    }
+
+    async equipItem(user: IUser, itemName: string, heroId: string) {
+        const hero = await this.findById(user, heroId)
+        const itemInInventory = hero.inventory.find(item => item.name === itemName)
+        if (!itemInInventory) throw new BadRequestError('Item não encontrado no inventário')
+
+        const slot = itemInInventory.slot
+
+        if (hero.equipment[slot] !== undefined) {
+            /* Remove item from equipments and puts in inventory */
+            const item = hero.equipment[slot] as unknown as IItem
+            await this.addItemInventory(user, hero, item)
+            /* Add new item to equipment */
+        }
+
+        hero.equipment[slot] = itemInInventory
+        if (itemInInventory.twoHanded) hero.equipment.leftHand = itemInInventory
+
+        const newHero = this.removeInventoryItem(itemInInventory, hero)
+
+        await this.updateUserHero(user, newHero)
+        const updatedHero = await this.findById(user, heroId)
+        return updatedHero
+    }
+
+    async unequipItem(user: IUser, heroId: string, itemSlot: keyof IEquipment) {
+        const hero = await this.findById(user, heroId)
+        if (!hero.equipment[itemSlot]) throw new BadRequestError('Item não encontrado no slot de equipamento')
+        const item = hero.equipment[itemSlot] as unknown as IItem
+        await this.addItemInventory(user, hero, item)
+        if (hero.equipment[itemSlot]?.twoHanded) {
+            hero.equipment.rightHand = undefined
+            hero.equipment.leftHand = undefined
+        } else {
+            hero.equipment[itemSlot] = undefined
+        }
+        await this.updateUserHero(user, hero)
+        const updatedHero = await this.findById(user, heroId)
+        return updatedHero
+    }
+
+    async updateUserHero(user: IUser, hero: IHero) {
+        const heroIdx = user.heroes.findIndex(lookupHero => lookupHero.id === hero.id)
+        if (heroIdx === -1) throw new BadRequestError('Herói não encontrado')
+        user.heroes[heroIdx] = hero
+        const heroes = user.heroes
+        const updatedUser = await this.userService.update(user.username, { heroes })
+        return updatedUser
     }
 
     async addItemInventory(user: IUser, hero: IHero, item: IItem) {
@@ -103,53 +168,12 @@ export class HeroService {
         return updatedUser
     }
 
-    async equipItem(user: IUser, itemName: string, heroId: string) {
-        const hero = await this.findById(user, heroId)
-        const itemInInventory = hero.inventory.find(item => item.name === itemName)
-        if (!itemInInventory) throw new BadRequestError('Item não encontrado no inventário')
-
-        const slot = itemInInventory.slot
-
-        if (hero.equipment[slot] !== undefined) {
-            /* Remove item from equipments and puts in inventory */
-            const item = hero.equipment[slot] as unknown as IItem
-            await this.addItemInventory(user, hero, item)
-            /* Add new item to equipment */
-        }
-
-        hero.equipment[slot] = itemInInventory
-
-        const newHero = this.removeInventoryItem( itemInInventory, hero)
-
-        const updatedUser = await this.updateUserHero(user, newHero)
-        return updatedUser
-    }
-
-    async unequipItem(user: IUser, heroId: string, itemSlot: keyof IEquipment, newEquippedItem?: IItem) {
-        const hero = await this.findById(user, heroId)
-        if (!hero.equipment[itemSlot]) throw new BadRequestError('Item não encontrado no slot de equipamento')
-        const item = hero.equipment[itemSlot] as unknown as IItem
-        await this.addItemInventory(user, hero, item)
-        hero.equipment[itemSlot] = newEquippedItem ? newEquippedItem : undefined
-        const updatedUser = await this.updateUserHero(user, hero)
-        return updatedUser
-    }
-
-    async updateUserHero(user: IUser, hero: IHero) {
-        const heroIdx = user.heroes.findIndex(lookupHero => lookupHero.id === hero.id)
-        if (heroIdx === -1) throw new BadRequestError('Herói não encontrado')
-        user.heroes[heroIdx] = hero
-        const heroes = user.heroes
-        const updatedUser = await this.userService.update(user.username, { heroes })
-        return updatedUser
-    }
-
     removeInventoryItem(item: IItem, hero: IHero) {
         const itemInInventoryIdx = hero.inventory.findIndex(inventoryItem => inventoryItem.name === item.name)
         if (!itemInInventoryIdx) throw new BadRequestError('Item não encontrado no inventário')
 
         if (item.quantity === 1) {
-            hero.inventory.splice(itemInInventoryIdx)
+            hero.inventory.splice(itemInInventoryIdx, 1)
         } else {
             hero.inventory[itemInInventoryIdx].quantity -= 1
         }

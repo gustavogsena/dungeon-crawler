@@ -1,6 +1,6 @@
 import { Schema } from "mongoose"
 import { IStatus } from "../hero/hero.schema"
-import { RarityTypes, } from "../../types"
+import { CombatEffects, EnchantmentType, RarityTypes, } from "../../types"
 
 
 export interface IItem {
@@ -8,7 +8,7 @@ export interface IItem {
     imageUrl: string,
     level: number,
     rarity: RarityTypes,
-    enchantment?: any[],
+    enchantment?: Partial<CombatEffects>,
     slot: keyof IEquipment,
     type: string
     price: number,
@@ -42,7 +42,50 @@ export const itemsSchema = new Schema<IItem>({
         required: true,
     },
     enchantment: {
-        type: Schema.Types.Array
+        duration: {
+            type: Schema.Types.Number
+        },
+        resistances: {
+            fire: {
+                type: Schema.Types.Number
+            },
+            ice: {
+                type: Schema.Types.Number
+            },
+            earth: {
+                type: Schema.Types.Number
+            },
+            lightning: {
+                type: Schema.Types.Number
+            }
+        },
+        combatEnchantment: {
+            attack: {
+                type: Schema.Types.Number
+            },
+            defense: {
+                type: Schema.Types.Number
+            }
+        },
+        statusEnchantment: {
+            strength: {
+                type: Schema.Types.Number
+            },
+            agility: {
+                type: Schema.Types.Number
+            },
+            magic: {
+                type: Schema.Types.Number
+            },
+            faith: {
+                type: Schema.Types.Number
+            }
+        },
+        overTurn: {
+            heal: {
+                type: Schema.Types.Number
+            }
+        }
     },
     price: {
         type: Schema.Types.Number,
